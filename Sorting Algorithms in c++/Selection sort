@@ -1,0 +1,42 @@
+#include<iostream>
+ 
+using namespace std;
+ 
+int main()
+{
+    int i,x,v,loc,temp,min,a[30];
+    cout<<"Enter the number of elements:";
+    cin>>v;
+    cout<<"\nEnter the elements\n";
+ 
+    for(i=0;i<v;i++)
+    {
+        cin>>a[i];
+    }
+ 
+    for(i=0;i<v-1;i++)
+    {
+        min=a[i];
+        loc=i;
+        for(x=i+1;x<v;x++)
+        {
+            if(min>a[x])
+            {
+                min=a[x];
+                loc=x;
+            }
+        }
+ 
+        temp=a[i];
+        a[i]=a[loc];
+        a[loc]=temp;
+    }
+ 
+    cout<<"\nSorted list is as follows\n";
+    for(i=0;i<v;i++)
+    {
+        cout<<a[i]<<" ";
+    }
+ 
+    return 0;
+}
