@@ -1,0 +1,45 @@
+#include <iostream>
+  using namespace std;
+  
+  void heapify(int arr[], int k, int j) {
+    int largest = j;
+    int left = 2 * j + 1;
+    int right = 2 * j + 2;
+  
+    if (left < k && arr[left] > arr[largest])
+      largest = left;
+  
+    if (right < k && arr[right] > arr[largest])
+      largest = right;
+  
+    if (largest != j) {
+      swap(arr[j], arr[largest]);
+      heapify(arr, k, largest);
+    }
+  }
+  
+  void heapSort(int arr[], int k) {
+    for (int j = k / 2 - 1; j >= 0; j--)
+      heapify(arr, k, j);
+  
+    for (int j = k - 1; j >= 0; j--) {
+      swap(arr[0], arr[j]);
+  
+      heapify(arr, j, 0);
+    }
+  }
+  
+  void printArray(int arr[], int k) {
+    for (int j = 0; j < k; ++j)
+      cout << arr[j] << " ";
+    cout << "\n";
+  }
+  
+  int main() {
+    int arr[] = {1, 17, 5, 3, 21, 10};
+    int k = sizeof(arr) / sizeof(arr[0]);
+    heapSort(arr, k);
+  
+    cout << "Sorted array is \n";
+    printArray(arr, k);
+  }
