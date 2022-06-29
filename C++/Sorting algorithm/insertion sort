@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+int st[16], a, t, r, temp;
+cout<<"enter 5 elements only to sort n:-";
+for (a = 0; a < 5; a++)
+{
+cin>>st[a];
+}
+for (a = 1; a < 5; a++)
+{
+for (t = a; t >= 1; t--)
+{
+if (st[t] < st[t-1])
+{
+temp = st[t];
+st[t] = st[t-1];
+st[t-1] = temp;
+}
+else
+break;
+}
+}
+cout<<"sorted array n "<<endl;
+for (r = 0; r < 5; r++)
+cout<<st[r]<<endl;
+}
