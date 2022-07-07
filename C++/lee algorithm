@@ -1,0 +1,88 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <cstring>
+using namespace std;
+  
+
+bool isSafe(vector<vector<int>> &mat, vector<vector<bool>> &visited, int a, int b)
+{
+    return (a >= 0 && a < mat.size() && b >= 0 && b < mat[0].size()) &&
+            mat[a][b] == 1 && !visited[a][b];
+}
+  
+  
+void findShortestPath(vector<vector<int>> &mat, vector<vector<bool>> &visited,
+                int i, int j, int a, int b, int &min_dist, int dist){
+    if (i == a && j == b){
+        min_dist = min(dist, min_dist);
+        return;
+    }
+    
+    visited[i][j] = true;
+    
+    if (isSafe(mat, visited, i + 1, j)) {
+        findShortestPath(mat, visited, i + 1, j, a, b, min_dist, dist + 1);
+    }
+    
+    if (isSafe(mat, visited, i, j + 1)) {
+        findShortestPath(mat, visited, i, j + 1, a, b, min_dist, dist + 1);
+    }
+    
+    if (isSafe(mat, visited, i - 1, j)) {
+        findShortestPath(mat, visited, i - 1, j, a, b, min_dist, dist + 1);
+    }
+
+    if (isSafe(mat, visited, i, j - 1)) {
+        findShortestPath(mat, visited, i, j - 1, a, b, min_dist, dist + 1);
+    }
+    
+    visited[i][j] = false;
+}
+  
+
+int findShortestPathLength(vector<vector<int>> &mat, pair<int, int> &src,
+                    pair<int, int> &dest){
+    if (mat.size() == 0 || mat[src.first][src.second] == 0 ||
+            mat[dest.first][dest.second] == 0)
+        return -1;
+     
+    int row = mat.size();
+    int col = mat[0].size();
+
+    vector<vector<bool>> visited;
+    visited.resize(row, vector<bool>(col));
+  
+    int dist = INT_MAX;
+    findShortestPath(mat, visited, src.first, src.second, dest.first, dest.second,
+            dist, 0);
+  
+    if (dist != INT_MAX)
+        return dist;
+    return -1;
+}
+  
+int main()
+{
+    vector<vector<int>> mat =
+    {{1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
+                  {6, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
+                  {1, 7, 1, 0, 1, 1, 0, 1, 0, 1 },
+                  {0, 0, 0, 4, 1, 0, 0, 0, 0, 1 },
+                  {1, 1, 1, 0, 8, 1, 1, 0, 1, 0 },
+                  {1, 0, 1, 1, 1, 1, 0, 1, 0, 0 },
+                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                  {1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
+                  {1, 1, 0, 0, 0, 0, 1, 0, 0, 1 }};
+  
+    pair<int, int> src = make_pair(0, 0);
+    pair<int, int> dest = make_pair(3, 4);
+    int dist = findShortestPathLength(mat, src, dest);
+    if (dist != -1)
+        cout << "Shortest Path is " << dist;
+     
+    else
+        cout << "Shortest Path doesn't exist";
+   
+    return 0;
+}
